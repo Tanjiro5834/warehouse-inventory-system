@@ -28,11 +28,11 @@ public class ReportsPanel extends JPanel {
 
     private JPanel reportCard(String title, String subtitle, String buttonText) {
         JPanel card = new JPanel(new MigLayout(
-                "fill, insets 20, gapy 10",
+                "fill, wrap, insets 20, gapy 10",
                 "[grow,fill]",
-                "[][grow][]"));
+                "[][][][grow,bottom]"));
         card.putClientProperty(FlatClientProperties.STYLE,
-                "arc: 12; background: $Panel.background; border: 1,1,1,1,$Component.borderColor,10");
+                "arc: 12; background: $Panel.background; border: 1,1,1,1,$Component.borderColor,1,12");
 
         JLabel icon = new JLabel("▤");
         icon.setFont(icon.getFont().deriveFont(32f));
@@ -54,8 +54,8 @@ public class ReportsPanel extends JPanel {
 
         card.add(icon);
         card.add(t);
-        card.add(s, "wrap");
-        card.add(b, "bottom, right");
+        card.add(s);
+        card.add(b, "right, growx 0");
         return card;
     }
 }

@@ -18,7 +18,7 @@ public class StatCard extends JPanel {
     public StatCard(String title, String value, String subtitle, String statusKey) {
         setLayout(new MigLayout("wrap 1, insets 18 20 18 20, gapy 6", "[grow,fill]", "[]"));
         putClientProperty(FlatClientProperties.STYLE,
-                "arc: 12; background: $Panel.background; border: 1,1,1,1,$Component.borderColor,10");
+                "arc: 12; background: $Panel.background; border: 1,1,1,1,$Component.borderColor,1,12");
 
         JLabel titleLabel = new JLabel(title);
         titleLabel.putClientProperty(FlatClientProperties.STYLE_CLASS, "small");

@@ -15,7 +15,7 @@ public class ItemDialog extends JDialog {
 
     public ItemDialog(Window owner) {
         super(owner, "Add / Edit Item", ModalityType.APPLICATION_MODAL);
-        setLayout(new MigLayout("fill, insets 20, gapy 10", "[grow,fill]", "[]"));
+        setLayout(new MigLayout("fill, wrap, insets 20, gapy 10", "[grow,fill]", "[grow][]"));
         setMinimumSize(new Dimension(520, 460));
         setLocationRelativeTo(owner);
 
@@ -96,7 +96,6 @@ public class ItemDialog extends JDialog {
         updateVisibility.run();
 
         JScrollPane scroll = new JScrollPane(form);
-        scroll.putClientProperty(FlatClientProperties.STYLE, "arc: 8;");
         scroll.setBorder(BorderFactory.createEmptyBorder());
         add(scroll, "grow, push");
 

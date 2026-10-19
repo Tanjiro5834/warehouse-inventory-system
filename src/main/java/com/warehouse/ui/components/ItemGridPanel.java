@@ -37,7 +37,7 @@ public class ItemGridPanel extends JPanel {
             new MigLayout("wrap 1, insets 0, gapy 6", "[grow,fill]", "[]"));
 
     public ItemGridPanel() {
-        setLayout(new MigLayout("fill, insets 0, gapy 8", "[grow,fill]", "[][grow]"));
+        setLayout(new MigLayout("fill, wrap, insets 0, gapy 8", "[grow,fill]", "[grow][]"));
         setOpaque(false);
 
         rowsContainer.setOpaque(false);
@@ -45,7 +45,6 @@ public class ItemGridPanel extends JPanel {
         JScrollPane scroll = new JScrollPane(rowsContainer);
         scroll.setBorder(BorderFactory.createEmptyBorder());
         scroll.getViewport().setOpaque(false);
-        scroll.putClientProperty(FlatClientProperties.STYLE, "arc: 8;");
         add(scroll, "grow, push");
 
         JButton addRow = new JButton("+ Add Item Row");
@@ -71,7 +70,7 @@ public class ItemGridPanel extends JPanel {
                 "[grow,fill,240!][90!][180!][][][]",
                 "[center]"));
         row.putClientProperty(FlatClientProperties.STYLE,
-                "arc: 8; background: $Panel.background; border: 1,1,1,1,$Component.borderColor,8");
+                "arc: 8; background: $Panel.background; border: 1,1,1,1,$Component.borderColor,1,8");
 
         JComboBox<String> item = new JComboBox<>(ITEMS);
         item.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Select item");

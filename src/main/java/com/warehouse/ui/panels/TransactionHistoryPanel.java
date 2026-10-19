@@ -19,15 +19,15 @@ import java.time.LocalDate;
 public class TransactionHistoryPanel extends JPanel {
 
     public TransactionHistoryPanel() {
-        setLayout(new MigLayout("fill, insets 20, gapy 12", "[grow,fill]", "[][grow]"));
+        setLayout(new MigLayout("fill, wrap, insets 20, gapy 12", "[grow,fill]", "[][grow]"));
 
         // ---------- Filter bar ----------
         JPanel filters = new JPanel(new MigLayout(
-                "wrap 1, insets 16, gap 12",
-                "[140!][grow,fill][140!][grow,fill][140!][grow,fill][grow,fill]",
+                "wrap 8, insets 16, gap 12",
+                "[][grow,fill][][grow,fill][][grow,fill][][grow,fill]",
                 "[]"));
         filters.putClientProperty(FlatClientProperties.STYLE,
-                "arc: 12; background: $Panel.background; border: 1,1,1,1,$Component.borderColor,10");
+                "arc: 12; background: $Panel.background; border: 1,1,1,1,$Component.borderColor,1,12");
 
         JTextField from = new JTextField(LocalDate.now().minusMonths(1).toString());
         JTextField to = new JTextField(LocalDate.now().toString());
@@ -50,9 +50,8 @@ public class TransactionHistoryPanel extends JPanel {
         filters.add(type);
         filters.add(new JLabel("Category"));
         filters.add(category);
-        filters.add(search, "span 4, growx");
-        filters.add(new JLabel(""), "growx");
-        filters.add(exportBtn, "right");
+        filters.add(search, "span 6, growx");
+        filters.add(exportBtn, "span 2, right, growx 0");
         add(filters, "growx");
 
         // ---------- Table ----------
@@ -63,7 +62,6 @@ public class TransactionHistoryPanel extends JPanel {
         table.setShowHorizontalLines(false);
         table.setShowVerticalLines(false);
         table.setFillsViewportHeight(true);
-        table.putClientProperty(FlatClientProperties.STYLE, "showTrailingIcon: false;");
         table.setRowSorter(new TableRowSorter<>(model));
 
         DefaultTableCellRenderer center = new DefaultTableCellRenderer();
@@ -87,7 +85,6 @@ public class TransactionHistoryPanel extends JPanel {
         });
 
         JScrollPane sp = new JScrollPane(table);
-        sp.putClientProperty(FlatClientProperties.STYLE, "arc: 8;");
         add(sp, "grow");
     }
 }

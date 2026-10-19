@@ -18,16 +18,16 @@ import java.time.LocalDate;
 public class StockOutPanel extends JPanel {
 
     public StockOutPanel() {
-        setLayout(new MigLayout("fill, insets 20, gapy 12", "[grow,fill]", "[][grow][]"));
+        setLayout(new MigLayout("fill, wrap, insets 20, gapy 12", "[grow,fill]", "[][grow][]"));
         setOpaque(false);
 
         // ---------- Header ----------
         JPanel header = new JPanel(new MigLayout(
                 "wrap 2, insets 16, gap 12",
-                "[140!][grow,fill][140!][grow,fill]",
+                "[grow,fill][grow,fill]",
                 "[]"));
         header.putClientProperty(FlatClientProperties.STYLE,
-                "arc: 12; background: $Panel.background; border: 1,1,1,1,$Component.borderColor,10");
+                "arc: 12; background: $Panel.background; border: 1,1,1,1,$Component.borderColor,1,12");
 
         JTextField date = new JTextField(LocalDate.now().toString());
         JTextField issuedTo = new JTextField();
@@ -49,15 +49,15 @@ public class StockOutPanel extends JPanel {
         // ---------- Item grid ----------
         JPanel gridCard = new JPanel(new MigLayout("fill, insets 16, gapy 8", "[grow,fill]", "[][grow]"));
         gridCard.putClientProperty(FlatClientProperties.STYLE,
-                "arc: 12; background: $Panel.background; border: 1,1,1,1,$Component.borderColor,10");
+                "arc: 12; background: $Panel.background; border: 1,1,1,1,$Component.borderColor,1,12");
 
         JLabel gridTitle = new JLabel("Items");
         gridTitle.putClientProperty(FlatClientProperties.STYLE_CLASS, "h3");
-        gridCard.add(gridTitle);
+        gridCard.add(gridTitle, "split 2, growx");
 
         SearchField itemSearch = new SearchField(18);
         itemSearch.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Filter items…");
-        gridCard.add(itemSearch, "right");
+        gridCard.add(itemSearch, "right, w 220!, wrap");
 
         ItemGridPanel grid = new ItemGridPanel();
         gridCard.add(grid, "grow");

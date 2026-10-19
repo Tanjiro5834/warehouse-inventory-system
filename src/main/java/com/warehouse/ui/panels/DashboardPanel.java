@@ -39,7 +39,7 @@ public class DashboardPanel extends JPanel {
         add(lowStock, "growx, wrap");
 
         // ---------- Left column: chart + recent transactions ----------
-        JPanel left = new JPanel(new MigLayout("fill, insets 0, gapy 16", "[grow]", "[][grow]"));
+        JPanel left = new JPanel(new MigLayout("fill, wrap, insets 0, gapy 16", "[grow]", "[][grow]"));
         left.setOpaque(false);
 
         left.add(buildChartCard(), "growx");
@@ -53,11 +53,11 @@ public class DashboardPanel extends JPanel {
 
     private JPanel buildChartCard() {
         JPanel card = new JPanel(new MigLayout(
-                "fill, insets 16 20 16 20, gapy 8",
+                "fill, wrap, insets 16 20 16 20, gapy 8",
                 "[grow,fill]",
-                "[][][grow]"));
+                "[][grow]"));
         card.putClientProperty(FlatClientProperties.STYLE,
-                "arc: 12; background: $Panel.background; border: 1,1,1,1,$Component.borderColor,10");
+                "arc: 12; background: $Panel.background; border: 1,1,1,1,$Component.borderColor,1,12");
 
         JLabel title = new JLabel("Stock Movement – Last 6 Months");
         title.putClientProperty(FlatClientProperties.STYLE_CLASS, "h3");
@@ -74,18 +74,18 @@ public class DashboardPanel extends JPanel {
         card.add(legend, "right");
 
         StockChart chart = new StockChart();
-        card.add(chart, "grow");
+        card.add(chart, "grow, h 220:260");
 
         return card;
     }
 
     private JPanel buildRecentTransactionsCard() {
         JPanel card = new JPanel(new MigLayout(
-                "fill, insets 16 20 16 20, gapy 8",
+                "fill, wrap, insets 16 20 16 20, gapy 8",
                 "[grow,fill]",
                 "[][grow]"));
         card.putClientProperty(FlatClientProperties.STYLE,
-                "arc: 12; background: $Panel.background; border: 1,1,1,1,$Component.borderColor,10");
+                "arc: 12; background: $Panel.background; border: 1,1,1,1,$Component.borderColor,1,12");
 
         JLabel title = new JLabel("Recent Transactions");
         title.putClientProperty(FlatClientProperties.STYLE_CLASS, "h3");
@@ -102,7 +102,6 @@ public class DashboardPanel extends JPanel {
         table.setShowHorizontalLines(false);
         table.setShowVerticalLines(false);
         table.setFillsViewportHeight(true);
-        table.putClientProperty(FlatClientProperties.STYLE, "showTrailingIcon: false");
         table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(
@@ -114,7 +113,6 @@ public class DashboardPanel extends JPanel {
         });
 
         JScrollPane sp = new JScrollPane(table);
-        sp.putClientProperty(FlatClientProperties.STYLE, "arc: 8;");
         card.add(sp, "grow");
 
         return card;
@@ -126,7 +124,7 @@ public class DashboardPanel extends JPanel {
                 "[grow,fill]",
                 "[][grow]"));
         card.putClientProperty(FlatClientProperties.STYLE,
-                "arc: 12; background: $Panel.background; border: 1,1,1,1,$Component.borderColor,10");
+                "arc: 12; background: $Panel.background; border: 1,1,1,1,$Component.borderColor,1,12");
 
         JLabel title = new JLabel("Low-Stock Alerts");
         title.putClientProperty(FlatClientProperties.STYLE_CLASS, "h3");
@@ -158,7 +156,7 @@ public class DashboardPanel extends JPanel {
                 "[grow,fill][][]",
                 "[center]"));
         row.putClientProperty(FlatClientProperties.STYLE,
-                "arc: 8; background: $Panel.background; border: 1,1,1,1,$Component.borderColor,8");
+                "arc: 8; background: $Panel.background; border: 1,1,1,1,$Component.borderColor,1,8");
 
         JLabel n = new JLabel(name);
         n.putClientProperty(FlatClientProperties.STYLE_CLASS, "small");

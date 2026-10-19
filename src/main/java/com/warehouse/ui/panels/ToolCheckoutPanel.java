@@ -18,7 +18,7 @@ import java.awt.*;
 public class ToolCheckoutPanel extends JPanel {
 
     public ToolCheckoutPanel() {
-        setLayout(new MigLayout("fill, insets 20, gapy 12", "[grow,fill]", "[][grow]"));
+        setLayout(new MigLayout("fill, wrap, insets 20, gapy 12", "[grow,fill]", "[][grow]"));
 
         // ---------- Toolbar ----------
         JPanel toolbar = new JPanel(new MigLayout("insets 0, gap 8", "[][][grow,fill][][]", "[center]"));
@@ -57,7 +57,6 @@ public class ToolCheckoutPanel extends JPanel {
         table.setShowHorizontalLines(false);
         table.setShowVerticalLines(false);
         table.setFillsViewportHeight(true);
-        table.putClientProperty(FlatClientProperties.STYLE, "showTrailingIcon: false;");
         table.setRowSorter(new TableRowSorter<>(model));
 
         table.setDefaultRenderer(Object.class, new OverdueRenderer(model));
@@ -67,7 +66,6 @@ public class ToolCheckoutPanel extends JPanel {
         table.getColumnModel().getColumn(3).setCellRenderer(new OverdueRenderer(model, true));
 
         JScrollPane sp = new JScrollPane(table);
-        sp.putClientProperty(FlatClientProperties.STYLE, "arc: 8;");
         add(sp, "grow");
     }
 

@@ -17,7 +17,7 @@ import javax.swing.*;
 public class SettingsPanel extends JPanel {
 
     public SettingsPanel() {
-        setLayout(new MigLayout("fill, insets 24, gapy 16", "[grow,fill]", "[][][grow]"));
+        setLayout(new MigLayout("fill, wrap, insets 24, gapy 16", "[grow,fill]", "[][][grow]"));
 
         add(section("Appearance", appearanceForm()), "growx");
         add(section("Company Information", companyForm()), "growx");
@@ -27,7 +27,7 @@ public class SettingsPanel extends JPanel {
     private JPanel section(String title, JPanel content) {
         JPanel wrap = new JPanel(new MigLayout("wrap 1, insets 20, gapy 12", "[grow,fill]", "[]"));
         wrap.putClientProperty(FlatClientProperties.STYLE,
-                "arc: 12; background: $Panel.background; border: 1,1,1,1,$Component.borderColor,10");
+                "arc: 12; background: $Panel.background; border: 1,1,1,1,$Component.borderColor,1,12");
         JLabel t = new JLabel(title);
         t.putClientProperty(FlatClientProperties.STYLE_CLASS, "h3");
         wrap.add(t);

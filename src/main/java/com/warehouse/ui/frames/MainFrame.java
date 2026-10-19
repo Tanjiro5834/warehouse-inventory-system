@@ -35,7 +35,7 @@ public class MainFrame extends JFrame {
         setLocationRelativeTo(null);
 
         // Root: sidebar | (topbar + content)
-        JPanel root = new JPanel(new MigLayout("fill, insets 0, gap 0", "[][grow]", "[grow]"));
+        JPanel root = new JPanel(new MigLayout("fill, insets 0, gap 0, hidemode 3", "[][grow]", "[grow]"));
         root.setBackground(UIManager.getColor("Panel.background"));
 
         // ---------- Sidebar ----------
@@ -43,7 +43,7 @@ public class MainFrame extends JFrame {
         root.add(sidebar, "growy, w 220!");
 
         // ---------- Right side: top bar + content ----------
-        JPanel right = new JPanel(new MigLayout("fill, insets 0, gap 0", "[grow]", "[][grow]"));
+        JPanel right = new JPanel(new MigLayout("fill, wrap, insets 0, gap 0", "[grow]", "[][grow]"));
         right.add(buildTopBar(), "growx, h 56!");
         right.add(contentArea, "grow");
 
@@ -116,7 +116,7 @@ public class MainFrame extends JFrame {
     private JPanel buildTopBar() {
         JPanel bar = new JPanel(new MigLayout(
                 "fill, insets 0 16 0 16, gap 12",
-                "[][grow,fill][][][]",
+                "[]push[][][]",
                 "[center]"));
         bar.setBackground(UIManager.getColor("Panel.background"));
         bar.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, UIManager.getColor("Component.borderColor")));

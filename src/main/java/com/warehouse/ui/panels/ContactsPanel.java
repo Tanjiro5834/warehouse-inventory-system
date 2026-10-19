@@ -29,7 +29,7 @@ public class ContactsPanel extends JPanel {
     }
 
     private JPanel buildSuppliersTab() {
-        JPanel p = new JPanel(new MigLayout("fill, insets 16, gapy 12", "[grow,fill]", "[][grow]"));
+        JPanel p = new JPanel(new MigLayout("fill, wrap, insets 16, gapy 12", "[grow,fill]", "[][grow]"));
         p.setOpaque(false);
 
         JPanel bar = new JPanel(new MigLayout("insets 0, gap 8", "[][grow,fill][]", "[center]"));
@@ -52,13 +52,12 @@ public class ContactsPanel extends JPanel {
         SupplierTableModel model = new SupplierTableModel();
         JTable table = buildBaseTable(model);
         JScrollPane sp = new JScrollPane(table);
-        sp.putClientProperty(FlatClientProperties.STYLE, "arc: 8;");
         p.add(sp, "grow");
         return p;
     }
 
     private JPanel buildTechniciansTab() {
-        JPanel p = new JPanel(new MigLayout("fill, insets 16, gapy 12", "[grow,fill]", "[][grow]"));
+        JPanel p = new JPanel(new MigLayout("fill, wrap, insets 16, gapy 12", "[grow,fill]", "[][grow]"));
         p.setOpaque(false);
 
         JPanel bar = new JPanel(new MigLayout("insets 0, gap 8", "[][grow,fill][]", "[center]"));
@@ -85,7 +84,6 @@ public class ContactsPanel extends JPanel {
         table.getColumnModel().getColumn(3).setCellRenderer(center);
 
         JScrollPane sp = new JScrollPane(table);
-        sp.putClientProperty(FlatClientProperties.STYLE, "arc: 8;");
         p.add(sp, "grow");
         return p;
     }
@@ -97,7 +95,6 @@ public class ContactsPanel extends JPanel {
         table.setShowHorizontalLines(false);
         table.setShowVerticalLines(false);
         table.setFillsViewportHeight(true);
-        table.putClientProperty(FlatClientProperties.STYLE, "showTrailingIcon: false;");
         table.setRowSorter(new TableRowSorter<>(model));
 
         table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {

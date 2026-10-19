@@ -34,7 +34,7 @@ public class InventoryPanel extends JPanel {
     // ---------- Units ----------
 
     private JPanel buildUnitsTab() {
-        JPanel p = new JPanel(new MigLayout("fill, insets 16, gapy 12", "[grow,fill]", "[][grow]"));
+        JPanel p = new JPanel(new MigLayout("fill, wrap, insets 16, gapy 12", "[grow,fill]", "[][grow]"));
         p.setOpaque(false);
 
         JPanel toolbar = buildToolbar("Add Unit", "Serial number");
@@ -56,7 +56,7 @@ public class InventoryPanel extends JPanel {
     // ---------- Consumables ----------
 
     private JPanel buildConsumablesTab() {
-        JPanel p = new JPanel(new MigLayout("fill, insets 16, gapy 12", "[grow,fill]", "[][grow]"));
+        JPanel p = new JPanel(new MigLayout("fill, wrap, insets 16, gapy 12", "[grow,fill]", "[][grow]"));
         p.setOpaque(false);
 
         p.add(buildToolbar("Add Consumable", "Item name"), "growx");
@@ -77,7 +77,7 @@ public class InventoryPanel extends JPanel {
     // ---------- Tools ----------
 
     private JPanel buildToolsTab() {
-        JPanel p = new JPanel(new MigLayout("fill, insets 16, gapy 12", "[grow,fill]", "[][grow]"));
+        JPanel p = new JPanel(new MigLayout("fill, wrap, insets 16, gapy 12", "[grow,fill]", "[][grow]"));
         p.setOpaque(false);
 
         p.add(buildToolbar("Add Tool", "Tool name"), "growx");
@@ -126,7 +126,6 @@ public class InventoryPanel extends JPanel {
         table.setShowHorizontalLines(false);
         table.setShowVerticalLines(false);
         table.setFillsViewportHeight(true);
-        table.putClientProperty(FlatClientProperties.STYLE, "showTrailingIcon: false;");
 
         TableRowSorter<AbstractTableModel> sorter = new TableRowSorter<>(model);
         table.setRowSorter(sorter);
@@ -167,7 +166,6 @@ public class InventoryPanel extends JPanel {
 
     private JScrollPane scroll(JTable table) {
         JScrollPane sp = new JScrollPane(table);
-        sp.putClientProperty(FlatClientProperties.STYLE, "arc: 8;");
         return sp;
     }
 

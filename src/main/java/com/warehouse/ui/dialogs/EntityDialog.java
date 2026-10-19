@@ -15,7 +15,7 @@ public class EntityDialog extends JDialog {
 
     public EntityDialog(Window owner, String title, String[] labels, String[] placeholders) {
         super(owner, title, ModalityType.APPLICATION_MODAL);
-        setLayout(new MigLayout("fill, insets 20, gapy 10", "[grow,fill]", "[]"));
+        setLayout(new MigLayout("fill, wrap, insets 20, gapy 10", "[grow,fill]", "[grow][]"));
         setMinimumSize(new Dimension(480, 120 + labels.length * 46));
         setLocationRelativeTo(owner);
 

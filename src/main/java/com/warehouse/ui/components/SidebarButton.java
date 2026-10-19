@@ -1,5 +1,6 @@
 package com.warehouse.ui.components;
 
+import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 
 import javax.swing.*;
@@ -17,14 +18,16 @@ public class SidebarButton extends JButton {
         setIconTextGap(12);
         setBorder(BorderFactory.createEmptyBorder(10, 16, 10, 16));
         setFocusPainted(false);
-        setContentAreaFilled(true);
-        setOpaque(false);
+        // Flat (toolbar-style) button: no grey box, hover/press handled by FlatLaf
+        putClientProperty(FlatClientProperties.BUTTON_TYPE, FlatClientProperties.BUTTON_TYPE_TOOLBAR_BUTTON);
         setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
         // Icon recolors per theme via FlatSVGIcon + UIManager key
         // The SVG should use #000000 as placeholder; FlatSVGIcon.ColorFilter maps it.
         // TODO: wire to backend (no backend for icons; this is UI-only)
-        if (svgIconPath != null) {
+        // FlatSVGIcon never throws on a missing file; it paints a red box instead.
+        // So check the classpath explicitly before using it.
+        if (svgIconPath != null && SidebarButton.class.getClassLoader().getResource(svgIconPath) != null) {
             try {
                 FlatSVGIcon icon = new FlatSVGIcon(svgIconPath, 18, 18);
                 // Map black placeholder to the button foreground color (theme-aware)
@@ -40,9 +43,19 @@ public class SidebarButton extends JButton {
 
     @Override
     protected void paintComponent(Graphics g) {
-        // Subtle selected-state accent bar on the left
+        boolean selected = getModel().isSelected();
+        if (selected) {
+            // Selected background (JButton itself has no "selected" look)
+            Graphics2D g2 = (Graphics2D) g.create();
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            Color bg = UIManager.getColor("Button.toolbar.selectedBackground");
+            g2.setColor(bg != null ? bg : UIManager.getColor("Component.borderColor"));
+            g2.fillRoundRect(0, 0, getWidth(), getHeight(), 10, 10);
+            g2.dispose();
+        }
         super.paintComponent(g);
-        if (getModel().isSelected() || getModel().isPressed()) {
+        // Accent bar on the left for the selected page
+        if (selected) {
             Graphics2D g2 = (Graphics2D) g.create();
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             g2.setColor(UIManager.getColor("Inventory.accentColor"));
