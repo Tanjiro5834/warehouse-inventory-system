@@ -7,13 +7,13 @@ import java.util.Optional;
 
 public class TechnicianRepository {
 
-    List<Technician> findAll();
+    // List<Technician> findAll();
 
-    Optional<Technician> findById(String id);
+    // Optional<Technician> findById(String id);
 
-    Technician save(Technician technician);
+    // Technician save(Technician technician);
 
-    void update(Technician technician);
+    // void update(Technician technician);
 
-    void delete(String id);
+    // void delete(String id);
 }

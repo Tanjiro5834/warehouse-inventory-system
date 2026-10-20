@@ -1,2 +1,7 @@
 ﻿target/
 bin/
+
+.vscode/
+.settings/
+.classpath
+.project

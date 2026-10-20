@@ -8,14 +8,24 @@ public class User {
     private String username;
     private String displayName;
     private String role;
+    private String passwordHash;
+    private String passwordSalt;
 
     public User() {}
 
-    public User(String id, String username, String displayName, String role) {
+    public User(String id, String username, String displayName, String role,
+                String passwordHash, String passwordSalt) {
         this.id = id;
         this.username = username;
         this.displayName = displayName;
         this.role = role;
+        this.passwordHash = passwordHash;
+        this.passwordSalt = passwordSalt;
+    }
+
+    // Kept for backward compatibility if anything constructs a user without credentials
+    public User(String id, String username, String displayName, String role) {
+        this(id, username, displayName, role, null, null);
     }
 
     public String getId() { return id; }
@@ -29,6 +39,12 @@ public class User {
 
     public String getRole() { return role; }
     public void setRole(String role) { this.role = role; }
+
+    public String getPasswordHash() { return passwordHash; }
+    public void setPasswordHash(String passwordHash) { this.passwordHash = passwordHash; }
+
+    public String getPasswordSalt() { return passwordSalt; }
+    public void setPasswordSalt(String passwordSalt) { this.passwordSalt = passwordSalt; }
 
     @Override
     public boolean equals(Object o) {

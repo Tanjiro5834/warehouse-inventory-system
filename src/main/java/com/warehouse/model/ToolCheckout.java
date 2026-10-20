@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
+import com.warehouse.enums.ToolStatus;
+
 public class ToolCheckout {
 
     private String id;
@@ -13,13 +15,13 @@ public class ToolCheckout {
     private String holderName;
     private LocalDate dateOut;
     private LocalDate dateReturned;
-    private String status;
+    private ToolStatus status;
 
     public ToolCheckout() {}
 
     public ToolCheckout(String id, String toolId, String toolName, String holderId,
                         String holderName, LocalDate dateOut, LocalDate dateReturned,
-                        String status) {
+                        ToolStatus status) {
         this.id = id;
         this.toolId = toolId;
         this.toolName = toolName;
@@ -59,8 +61,8 @@ public class ToolCheckout {
     public LocalDate getDateReturned() { return dateReturned; }
     public void setDateReturned(LocalDate dateReturned) { this.dateReturned = dateReturned; }
 
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
+    public ToolStatus getStatus() { return status; }
+    public void setStatus(ToolStatus status) { this.status = status; }
 
     @Override
     public boolean equals(Object o) {

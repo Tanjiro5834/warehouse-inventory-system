@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StockOutRecord {
-
+    private String id;
     private LocalDate date;
     private List<StockOutLine> lines = new ArrayList<>();
     private String issuedTo;
@@ -24,6 +24,9 @@ public class StockOutRecord {
         this.releasedBy = releasedBy;
         this.remarks = remarks;
     }
+
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
 
     public LocalDate getDate() { return date; }
     public void setDate(LocalDate date) { this.date = date; }
