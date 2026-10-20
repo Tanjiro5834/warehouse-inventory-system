@@ -58,7 +58,6 @@ public class LoginFrame extends JFrame {
                 JOptionPane.showMessageDialog(this, "Invalid username or password",
                         "Sign in failed", JOptionPane.ERROR_MESSAGE);
             }
-            new MainFrame().setVisible(true);
         });
 
         card.add(title);
