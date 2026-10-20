@@ -4,7 +4,6 @@ import com.formdev.flatlaf.FlatClientProperties;
 import com.warehouse.ui.components.SidebarButton;
 import com.warehouse.ui.components.SearchField;
 import com.warehouse.ui.components.ThemeSelectorComboBox;
-import com.warehouse.ui.theme.ThemeManager;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -12,11 +11,6 @@ import java.awt.*;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-/**
- * Main application window: sidebar + top bar + CardLayout content area.
- * All navigation is functional. Page content is placeholder for Phase 1.
- * TODO: wire to backend (replace placeholder panels with real screen panels)
- */
 public class MainFrame extends JFrame {
 
     private final CardLayout cardLayout = new CardLayout();

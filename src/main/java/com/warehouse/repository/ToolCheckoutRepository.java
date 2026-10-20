@@ -82,12 +82,12 @@ public class ToolCheckoutRepository {
            ps.executeUpdate();
            return checkout;
         }catch(SQLException e){
-            throw new IllegalArgumentException("Failed to save tool checkout");
+            throw new DataAccessException("Failed to save tool checkout", e);
         }
     }
 
     public void markReturned(String id){
-        String sql = "UPDATE tool_checkouts SET status = 'AVAILABLE', date_returned = ? WHERE id = ?";
+        String sql = "UPDATE tool_checkouts SET status = 'AVAILABLE', date_returned = ? WHERE id = ? AND status = 'CHECKED_OUT'";
         try(Connection c = Database.getConnection();
            PreparedStatement ps = c.prepareStatement(sql)){
 
@@ -97,7 +97,7 @@ public class ToolCheckoutRepository {
            int affectedRows = ps.executeUpdate();
            if(affectedRows == 0) throw new IllegalArgumentException("Tool checkout not found with ID: " + id);
         }catch(SQLException e){
-            e.printStackTrace();
+            throw new DataAccessException("Failed to mark checkout returned", e);
         }
     }
 
