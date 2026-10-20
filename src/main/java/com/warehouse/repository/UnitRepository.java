@@ -1,6 +1,7 @@
 package com.warehouse.repository;
 
 import com.warehouse.db.Database;
+import com.warehouse.enums.DBAction;
 import com.warehouse.enums.StockStatus;
 import com.warehouse.enums.UnitType;
 import com.warehouse.exception.DataAccessException;
@@ -22,16 +23,7 @@ public class UnitRepository {
             PreparedStatement stmt = c.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery()) {
             while(rs.next()) {
-                Unit unit = new Unit(
-                    rs.getString("id"),
-                    rs.getString("brand"),
-                    rs.getString("model"),
-                    rs.getDouble("capacity_hp"),
-                    UnitType.valueOf(rs.getString("type")),
-                    rs.getString("serial"),
-                    StockStatus.valueOf(rs.getString("stock_status"))
-                );
-                units.add(unit);
+                units.add(mapRowToUnit(rs));
             }
         } catch (SQLException e) {
             throw new DataAccessException("Failed to load all units", e);
@@ -51,16 +43,7 @@ public class UnitRepository {
             stmt.setString(1, id);
             try(ResultSet rs = stmt.executeQuery()) {
                 if(rs.next()) {
-                    Unit unit = new Unit(
-                        rs.getString("id"),
-                        rs.getString("brand"),
-                        rs.getString("model"),
-                        rs.getDouble("capacity_hp"),
-                        UnitType.valueOf(rs.getString("type")),
-                        rs.getString("serial"),
-                        StockStatus.valueOf(rs.getString("stock_status"))
-                    );
-                    return Optional.of(unit);
+                    return Optional.of(mapRowToUnit(rs));
                 }
             }
         } catch (SQLException e) {
@@ -81,16 +64,7 @@ public class UnitRepository {
             stmt.setString(1, serial);
             try(ResultSet rs = stmt.executeQuery()) {
                 if(rs.next()) {
-                    Unit unit = new Unit(
-                        rs.getString("id"),
-                        rs.getString("brand"),
-                        rs.getString("model"),
-                        rs.getDouble("capacity_hp"),
-                        UnitType.valueOf(rs.getString("type")),
-                        rs.getString("serial"),
-                        StockStatus.valueOf(rs.getString("stock_status"))
-                    );
-                    return Optional.of(unit);
+                    return Optional.of(mapRowToUnit(rs));
                 }
             }
         } catch (SQLException e) {
@@ -105,9 +79,7 @@ public class UnitRepository {
         try(Connection c = Database.getConnection();
             PreparedStatement stmt = c.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery()) {
-            if(rs.next()) {
-                return rs.getInt(1);
-            }
+            if(rs.next()) return rs.getInt(1);
         } catch (SQLException e) {
             throw new DataAccessException("Failed to count units", e);
         }
@@ -118,13 +90,7 @@ public class UnitRepository {
         String sql = "INSERT INTO units (id, brand, model, capacity_hp, type, serial, stock_status) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = Database.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, unit.getId());
-            ps.setString(2, unit.getBrand());
-            ps.setString(3, unit.getModel());
-            ps.setDouble(4, unit.getCapacityHp());
-            ps.setString(5, unit.getType().toString());
-            ps.setString(6, unit.getSerial());
-            ps.setString(7, unit.getStockStatus().toString());
+            mapToPs(DBAction.SAVE, ps, unit);
             ps.executeUpdate();
             return unit;
         } catch (SQLException e) {
@@ -137,13 +103,7 @@ public class UnitRepository {
         String sql = "UPDATE units SET brand = ?, model = ?, capacity_hp = ?, type = ?, serial = ?, stock_status = ? WHERE id = ?";
         try (Connection conn = Database.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, unit.getBrand());
-            ps.setString(2, unit.getModel());
-            ps.setDouble(3, unit.getCapacityHp());
-            ps.setString(4, unit.getType().toString());
-            ps.setString(5, unit.getSerial());
-            ps.setString(6, unit.getStockStatus().toString());
-            ps.setString(7, unit.getId());
+            mapToPs(DBAction.UPDATE, ps, unit);
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -158,8 +118,50 @@ public class UnitRepository {
             ps.setString(1, id);
             ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new DataAccessException("Error deleting unit", e);
         }
+    }
+
+    private void mapToPs(DBAction type, PreparedStatement ps, Unit unit) throws SQLException{
+        if (type == null) {
+            throw new IllegalArgumentException("Database action cannot be null");
+        }
+
+        if (unit == null) {
+            throw new IllegalArgumentException("Unit cannot be null");
+        }
+
+        switch (type) {
+            case UPDATE -> {
+                ps.setString(1, unit.getBrand());
+                ps.setString(2, unit.getModel());
+                ps.setDouble(3, unit.getCapacityHp());
+                ps.setString(4, unit.getType().toString());
+                ps.setString(5, unit.getSerial());
+                ps.setString(6, unit.getStockStatus().toString());
+                ps.setString(7, unit.getId());
+            }
+            case SAVE -> {
+                ps.setString(1, unit.getId());
+                ps.setString(2, unit.getBrand());
+                ps.setString(3, unit.getModel());
+                ps.setDouble(4, unit.getCapacityHp());
+                ps.setString(5, unit.getType().toString());
+                ps.setString(6, unit.getSerial());
+                ps.setString(7, unit.getStockStatus().toString());
+            }
+        }
+    }
+
+    private Unit mapRowToUnit(ResultSet rs) throws SQLException{
+        return new Unit(
+            rs.getString("id"),
+            rs.getString("brand"),
+            rs.getString("model"),
+            rs.getDouble("capacity_hp"),
+            UnitType.valueOf(rs.getString("type")),
+            rs.getString("serial"),
+            StockStatus.valueOf(rs.getString("stock_status"))
+        );
     }
 }
