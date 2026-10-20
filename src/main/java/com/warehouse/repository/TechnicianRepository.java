@@ -41,16 +41,23 @@ public class TechnicianRepository {
     }
 
     public Optional<Technician> findById(String id){
-        String sql = "SELECT * FROM technicians WHERE id = ?";
+        if(id == null || id.isBlank()) return Optional.empty();
+        String sql = """
+        SELECT t.id, t.name, t.specialty, t.phone,
+               COUNT(tc.id) AS active_jobs
+        FROM technicians t
+        LEFT JOIN tool_checkouts tc
+               ON tc.holder_id = t.id AND tc.status = 'CHECKED_OUT'
+        WHERE t.id = ?
+        GROUP BY t.id
+        """;
         try(Connection c = Database.getConnection();
             PreparedStatement ps =  c.prepareStatement(sql);
             ResultSet rs = ps.executeQuery()){
-            if(rs.next()) return Optional.of(mapRowToTechnician(rs));
+            return rs.next() ? Optional.of(mapRowToTechnician(rs)) : Optional.empty();
         }catch(SQLException e){
             throw new DataAccessException("Cannot update technician", e);
         }
-
-        return Optional.empty();
     }
 
     public Technician save(Technician technician){
@@ -72,11 +79,11 @@ public class TechnicianRepository {
         String sql = "UPDATE technicians SET name = ?, specialty = ?, phone = ? WHERE id = ?";
         try(Connection c = Database.getConnection();
             PreparedStatement ps =  c.prepareStatement(sql)){
-            ps.setString(1, technician.getId());
-            ps.setString(2, technician.getName());
-            ps.setString(3, technician.getSpecialty());
-            ps.setString(4, technician.getPhone());
-            ps.executeUpdate();
+            ps.setString(1, technician.getName());
+            ps.setString(2, technician.getSpecialty());
+            ps.setString(3, technician.getPhone());
+            ps.setString(4, technician.getId());
+            if(ps.executeUpdate() == 0) throw new DataAccessException("No technician with id " + technician.getId(), null);
         }catch(SQLException e){
             throw new DataAccessException("Cannot update technician", e);
         }

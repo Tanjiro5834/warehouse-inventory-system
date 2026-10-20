@@ -18,7 +18,7 @@ public class ToolCheckoutRepository {
 
     public List<ToolCheckout> findActive(){
         List<ToolCheckout> activeToolCheckouts = new ArrayList<>();
-        String sql = "SELECT * FROM tool_checkouts WHERE status = 'AVAILABLE'";
+        String sql = "SELECT * FROM tool_checkouts WHERE status = 'CHECKED_OUT'";
 
         try(Connection c = Database.getConnection();
            PreparedStatement ps = c.prepareStatement(sql);
@@ -102,7 +102,7 @@ public class ToolCheckoutRepository {
     }
 
     public int countActive(){
-        String sql = "SELECT COUNT(*) FROM tool_checkouts WHERE status = 'AVAILABLE'";
+        String sql = "SELECT COUNT(*) FROM tool_checkouts WHERE status = 'CHECKED_OUT'";
         try(Connection c = Database.getConnection();
             PreparedStatement ps = c.prepareStatement(sql);
             ResultSet rs = ps.executeQuery()){

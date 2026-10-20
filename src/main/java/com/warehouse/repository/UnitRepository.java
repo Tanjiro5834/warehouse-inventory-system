@@ -1,7 +1,6 @@
 package com.warehouse.repository;
 
 import com.warehouse.db.Database;
-import com.warehouse.enums.DBAction;
 import com.warehouse.enums.StockStatus;
 import com.warehouse.enums.UnitType;
 import com.warehouse.exception.DataAccessException;
@@ -87,10 +86,10 @@ public class UnitRepository {
     }
 
     public Unit save(Unit unit) {
-        String sql = "INSERT INTO units (id, brand, model, capacity_hp, type, serial, stock_status) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO units (brand, model, capacity_hp, type, serial, stock_status, id) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = Database.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
-            mapToPs(DBAction.SAVE, ps, unit);
+            mapToPs(ps, unit);
             ps.executeUpdate();
             return unit;
         } catch (SQLException e) {
@@ -103,7 +102,7 @@ public class UnitRepository {
         String sql = "UPDATE units SET brand = ?, model = ?, capacity_hp = ?, type = ?, serial = ?, stock_status = ? WHERE id = ?";
         try (Connection conn = Database.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
-            mapToPs(DBAction.UPDATE, ps, unit);
+            mapToPs(ps, unit);
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -122,35 +121,14 @@ public class UnitRepository {
         }
     }
 
-    private void mapToPs(DBAction type, PreparedStatement ps, Unit unit) throws SQLException{
-        if (type == null) {
-            throw new IllegalArgumentException("Database action cannot be null");
-        }
-
-        if (unit == null) {
-            throw new IllegalArgumentException("Unit cannot be null");
-        }
-
-        switch (type) {
-            case UPDATE -> {
-                ps.setString(1, unit.getBrand());
-                ps.setString(2, unit.getModel());
-                ps.setDouble(3, unit.getCapacityHp());
-                ps.setString(4, unit.getType().toString());
-                ps.setString(5, unit.getSerial());
-                ps.setString(6, unit.getStockStatus().toString());
-                ps.setString(7, unit.getId());
-            }
-            case SAVE -> {
-                ps.setString(1, unit.getId());
-                ps.setString(2, unit.getBrand());
-                ps.setString(3, unit.getModel());
-                ps.setDouble(4, unit.getCapacityHp());
-                ps.setString(5, unit.getType().toString());
-                ps.setString(6, unit.getSerial());
-                ps.setString(7, unit.getStockStatus().toString());
-            }
-        }
+    private void mapToPs(PreparedStatement ps, Unit unit) throws SQLException{
+        ps.setString(1, unit.getBrand());
+        ps.setString(2, unit.getModel());
+        ps.setDouble(3, unit.getCapacityHp());
+        ps.setString(4, unit.getType().toString());
+        ps.setString(5, unit.getSerial());
+        ps.setString(6, unit.getStockStatus().toString());
+        ps.setString(7, unit.getId());
     }
 
     private Unit mapRowToUnit(ResultSet rs) throws SQLException{
