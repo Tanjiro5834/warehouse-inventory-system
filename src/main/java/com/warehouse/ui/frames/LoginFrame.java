@@ -1,16 +1,15 @@
 package com.warehouse.ui.frames;
 
 import com.formdev.flatlaf.FlatClientProperties;
-import com.warehouse.ui.theme.ThemeManager;
+import com.warehouse.model.User;
+import com.warehouse.repository.UserRepository;
+import com.warehouse.service.AuthService;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Optional;
 
-/**
- * Login screen. UI-only: any input + Login opens the main window.
- * TODO: wire to backend (real authentication)
- */
 public class LoginFrame extends JFrame {
 
     public LoginFrame() {
@@ -47,9 +46,18 @@ public class LoginFrame extends JFrame {
         loginBtn.putClientProperty(FlatClientProperties.STYLE_CLASS, "default");
         loginBtn.setPreferredSize(new Dimension(360, 40));
 
+        AuthService auth = new AuthService(new UserRepository());
+
         loginBtn.addActionListener(e -> {
-            // TODO: wire to backend (real authentication)
-            dispose();
+            Optional<User> user = auth.login(username.getText(), password.getPassword());
+            if (user.isPresent()) {
+                dispose();
+                new MainFrame().setVisible(true);
+            } else {
+                password.setText("");
+                JOptionPane.showMessageDialog(this, "Invalid username or password",
+                        "Sign in failed", JOptionPane.ERROR_MESSAGE);
+            }
             new MainFrame().setVisible(true);
         });
 
