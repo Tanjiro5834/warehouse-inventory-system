@@ -60,7 +60,7 @@ public class TechnicianRepository {
             }
             
         }catch(SQLException e){
-            throw new DataAccessException("Cannot update technician", e);
+            throw new DataAccessException("Cannot find technician with id: " + id, e);
         }
     }
 
