@@ -52,9 +52,13 @@ public class TechnicianRepository {
         GROUP BY t.id
         """;
         try(Connection c = Database.getConnection();
-            PreparedStatement ps =  c.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery()){
-            return rs.next() ? Optional.of(mapRowToTechnician(rs)) : Optional.empty();
+            PreparedStatement ps =  c.prepareStatement(sql)){
+            ps.setString(1, id);
+
+            try(ResultSet rs = ps.executeQuery()){
+                return rs.next() ? Optional.of(mapRowToTechnician(rs)) : Optional.empty();
+            }
+            
         }catch(SQLException e){
             throw new DataAccessException("Cannot update technician", e);
         }
