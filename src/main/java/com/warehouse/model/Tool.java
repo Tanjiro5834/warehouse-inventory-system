@@ -11,6 +11,7 @@ public class Tool {
     private int quantity;
     private ToolStatus status;
     private String assignedTechnicianId;
+    private String assignedTechnicianName; 
 
     public Tool() {}
 
@@ -39,6 +40,9 @@ public class Tool {
     public void setAssignedTechnicianId(String assignedTechnicianId) {
         this.assignedTechnicianId = assignedTechnicianId;
     }
+
+    public String getAssignedTechnicianName() { return assignedTechnicianName; }
+    public void setAssignedTechnicianName(String n) { this.assignedTechnicianName = n; }
 
     @Override
     public boolean equals(Object o) {
