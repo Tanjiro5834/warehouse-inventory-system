@@ -30,16 +30,18 @@ public class ToolRepository {
     }
 
     public List<Tool> findByStatus(ToolStatus status) {
+        if(status == null) return List.of();
         return queryList(SELECT_BASE + " WHERE t.status = ? ORDER BY t.name", status.name());
     }
 
     public List<Tool> findByTechnician(String technicianId) {
+        if (technicianId == null || technicianId.isBlank()) return List.of();
         return queryList(SELECT_BASE + " WHERE t.assigned_technician_id = ? ORDER BY t.name", technicianId);
     }
 
     public Tool save(Tool t){
         String sql = "INSERT INTO tools (id, name, quantity, status, assigned_technician_id)"
-        + "VALUES (?, ?, ?, ?, ?)";
+        + " VALUES (?, ?, ?, ?, ?)";
         try(Connection c = Database.getConnection();
             PreparedStatement ps = c.prepareStatement(sql)) {
             ps.setString(1, t.getId());
@@ -49,7 +51,7 @@ public class ToolRepository {
             ps.setString(5, t.getAssignedTechnicianId());
             ps.executeUpdate();
             return t;
-        } catch (Exception e) {
+        } catch (SQLException e) {
             throw new RuntimeException("Cannot save tool", e);
         }
     }
@@ -65,7 +67,7 @@ public class ToolRepository {
             if(ps.executeUpdate() == 0){
                 throw new DataAccessException("No tool with id: " + t.getId(), null);
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             throw new DataAccessException("Cannot update tool", e);
         }
     }
@@ -76,7 +78,7 @@ public class ToolRepository {
             PreparedStatement ps = c.prepareStatement(sql)) {
             ps.setString(1, id);
             ps.executeUpdate();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             throw new DataAccessException("Cannot delete tool with id: " + id, e);
         }
     }
