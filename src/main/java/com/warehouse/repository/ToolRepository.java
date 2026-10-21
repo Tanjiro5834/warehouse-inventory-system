@@ -52,7 +52,7 @@ public class ToolRepository {
             ps.executeUpdate();
             return t;
         } catch (SQLException e) {
-            throw new RuntimeException("Cannot save tool", e);
+            throw new DataAccessException("Cannot save tool", e);
         }
     }
 
